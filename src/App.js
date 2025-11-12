@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import MaisVendidos from './pages/MaisVendidos/MaisVendidos.jsx';
@@ -19,22 +19,22 @@ function App() {
           </div>
           
           <nav className="sidebar-nav">
-            <Link to="/" className="nav-item">
+            <NavLink to="/" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`} end>
               <span className="nav-icon">▣</span>
               <span className="nav-text">Dashboard</span>
-            </Link>
-            <Link to="/mais-vendidos" className="nav-item">
-              <span className="nav-icon">★</span>
-              <span className="nav-text">Mais Vendidos</span>
-            </Link>
-            <Link to="/pedidos" className="nav-item">
+            </NavLink>
+            <NavLink to="/pedidos" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
               <span className="nav-icon">◈</span>
               <span className="nav-text">Pedidos</span>
-            </Link>
-            <Link to="/cardapio" className="nav-item">
+            </NavLink>
+            <NavLink to="/cardapio" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
               <span className="nav-icon">☰</span>
               <span className="nav-text">Cardápio</span>
-            </Link>
+            </NavLink>
+            <NavLink to="/mais-vendidos" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
+              <span className="nav-icon">★</span>
+              <span className="nav-text">Mais Vendidos</span>
+            </NavLink>
           </nav>
         </aside>
         

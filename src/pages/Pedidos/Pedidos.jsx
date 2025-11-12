@@ -1,84 +1,52 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './Pedidos.css';
+import OrderCard, { STATUS } from '../../components/OrderCard';
 
 function Pedidos() {
   const [pedidos, setPedidos] = useState([
-    { 
-      id: '#1234', 
-      cliente: 'João Silva', 
-      data: '20/10/2025', 
-      hora: '10:30', 
-      valor: 'R$ 89,90', 
-      status: 'Confirmado',
-      itens: 3
-    },
-    { 
-      id: '#1233', 
-      cliente: 'Maria Santos', 
-      data: '20/10/2025', 
-      hora: '10:15', 
-      valor: 'R$ 125,50', 
-      status: 'Relatório',
-      itens: 5
-    },
-    { 
-      id: '#1232', 
-      cliente: 'Pedro Oliveira', 
-      data: '20/10/2025', 
-      hora: '09:45', 
-      valor: 'R$ 67,80', 
-      status: 'Confirmado',
-      itens: 2
-    },
-    { 
-      id: '#1231', 
-      cliente: 'Ana Costa', 
-      data: '20/10/2025', 
-      hora: '09:30', 
-      valor: 'R$ 156,00', 
-      status: 'Confirmado',
-      itens: 4
-    },
-    { 
-      id: '#1230', 
-      cliente: 'Carlos Mendes', 
-      data: '20/10/2025', 
-      hora: '09:15', 
-      valor: 'R$ 98,40', 
-      status: 'Relatório',
-      itens: 3
-    },
-    { 
-      id: '#1229', 
-      cliente: 'Juliana Lima', 
-      data: '19/10/2025', 
-      hora: '22:45', 
-      valor: 'R$ 78,90', 
-      status: 'Confirmado',
-      itens: 2
-    },
-    { 
-      id: '#1228', 
-      cliente: 'Roberto Alves', 
-      data: '19/10/2025', 
-      hora: '22:30', 
-      valor: 'R$ 134,20', 
-      status: 'Confirmado',
-      itens: 6
-    },
-    { 
-      id: '#1227', 
-      cliente: 'Fernanda Rocha', 
-      data: '19/10/2025', 
-      hora: '22:00', 
-      valor: 'R$ 89,50', 
-      status: 'Relatório',
-      itens: 3
-    }
+    { id: '001', status: STATUS.NOVO, items: [
+      { name: 'X-Tudo Tradicional', price: 14.00 },
+      { name: 'Suco de Laranja', price: 4.00 }
+    ], total: 'R$ 18,00' },
+    { id: '002', status: STATUS.EM_ANDAMENTO, items: [
+      { name: 'Hot Dog Premium', price: 22.50 }
+    ], total: 'R$ 22,50' },
+    { id: '003', status: STATUS.PRONTO, items: [
+      { name: 'Batata Frita', price: 9.90 },
+      { name: 'Refrigerante', price: 6.00 }
+    ], total: 'R$ 15,90' },
+    { id: '004', status: STATUS.FINALIZADO, items: [
+      { name: 'X-Salada', price: 10.00 },
+      { name: 'Água', price: 2.00 }
+    ], total: 'R$ 12,00' },
+    { id: '005', status: STATUS.NOVO, items: [
+      { name: 'X-Bacon', price: 19.90 }
+    ], total: 'R$ 19,90' },
+    { id: '006', status: STATUS.EM_ANDAMENTO, items: [
+      { name: 'Combo Kids', price: 25.00 }
+    ], total: 'R$ 25,00' }
   ]);
 
-  const getStatusClass = (status) => {
-    return status === 'Confirmado' ? 'status-confirmado' : 'status-relatorio';
+  const [filter, setFilter] = useState('todos');
+
+  const counts = useMemo(() => ({
+    todos: pedidos.length,
+    novo: pedidos.filter(p => p.status === STATUS.NOVO).length,
+    em_andamento: pedidos.filter(p => p.status === STATUS.EM_ANDAMENTO).length,
+    pronto: pedidos.filter(p => p.status === STATUS.PRONTO).length,
+    finalizado: pedidos.filter(p => p.status === STATUS.FINALIZADO).length,
+  }), [pedidos]);
+
+  const filtered = useMemo(() => (
+    filter === 'todos' ? pedidos : pedidos.filter(p => p.status === filter)
+  ), [filter, pedidos]);
+
+  const updateStatus = (id, nextStatus) => {
+    setPedidos(prev => prev.map(p => p.id === id ? { ...p, status: nextStatus } : p));
+  };
+
+  const removeOrder = (id) => {
+    setPedidos(prev => prev.filter(p => p.id !== id));
   };
 
   return (
@@ -88,76 +56,30 @@ function Pedidos() {
         <p className="page-subtitle">Acompanhe e gerencie todos os pedidos</p>
       </div>
 
-      <div className="pedidos-actions card">
-        <div className="search-container">
-          <input 
-            type="text" 
-            placeholder="Buscar pedido por ID ou cliente..." 
-            className="search-input"
-          />
-        </div>
-        <div className="action-buttons">
-          <button className="btn-primary">Novo Pedido</button>
-          <button className="btn-secondary">Exportar</button>
-        </div>
-      </div>
-
       <div className="status-filters">
-        <button className="filter-btn active">Todos ({pedidos.length})</button>
-        <button className="filter-btn">
-          Confirmado ({pedidos.filter(p => p.status === 'Confirmado').length})
-        </button>
-        <button className="filter-btn">
-          Relatório ({pedidos.filter(p => p.status === 'Relatório').length})
-        </button>
+        <button className={`filter-btn ${filter === 'todos' ? 'active' : ''}`} onClick={() => setFilter('todos')}>Todos ({counts.todos})</button>
+        <button className={`filter-btn ${filter === STATUS.NOVO ? 'active' : ''}`} onClick={() => setFilter(STATUS.NOVO)}>Novo ({counts.novo})</button>
+        <button className={`filter-btn ${filter === STATUS.EM_ANDAMENTO ? 'active' : ''}`} onClick={() => setFilter(STATUS.EM_ANDAMENTO)}>Em andamento ({counts.em_andamento})</button>
+        <button className={`filter-btn ${filter === STATUS.PRONTO ? 'active' : ''}`} onClick={() => setFilter(STATUS.PRONTO)}>Pronto ({counts.pronto})</button>
+        <button className={`filter-btn ${filter === STATUS.FINALIZADO ? 'active' : ''}`} onClick={() => setFilter(STATUS.FINALIZADO)}>Finalizado ({counts.finalizado})</button>
       </div>
 
-      <div className="table-container card">
-        <table className="pedidos-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Cliente</th>
-              <th>Data</th>
-              <th>Hora</th>
-              <th>Itens</th>
-              <th>Valor</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pedidos.map((pedido) => (
-              <tr key={pedido.id}>
-                <td className="pedido-id">{pedido.id}</td>
-                <td className="cliente-nome">{pedido.cliente}</td>
-                <td>{pedido.data}</td>
-                <td>{pedido.hora}</td>
-                <td>{pedido.itens}</td>
-                <td className="valor-cell">{pedido.valor}</td>
-                <td>
-                  <span className={getStatusClass(pedido.status)}>
-                    {pedido.status}
-                  </span>
-                </td>
-                <td>
-                  <div className="action-buttons-cell">
-                    <button className="btn-icon" title="Ver detalhes">○</button>
-                    <button className="btn-icon" title="Editar">✎</button>
-                    <button className="btn-icon" title="Imprimir">⎙</button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="orders-grid">
+        {filtered.map(p => (
+          <OrderCard
+            key={p.id}
+            id={p.id}
+            status={p.status}
+            items={p.items}
+            total={p.total}
+            onMarcarPreparo={() => updateStatus(p.id, STATUS.EM_ANDAMENTO)}
+            onIniciarPreparo={() => updateStatus(p.id, STATUS.PRONTO)}
+            onFinalizar={() => updateStatus(p.id, STATUS.FINALIZADO)}
+            onCancelar={() => removeOrder(p.id)}
+          />
+        ))}
       </div>
 
-      <div className="pagination">
-        <button className="pagination-btn">Anterior</button>
-        <span className="pagination-info">Página 1 de 5</span>
-        <button className="pagination-btn">Próxima</button>
-      </div>
     </div>
   );
 }

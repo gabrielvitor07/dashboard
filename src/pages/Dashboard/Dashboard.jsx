@@ -1,100 +1,100 @@
 import React from 'react';
 import './Dashboard.css';
 
-function Dashboard() {
-  const statsData = [
-    { title: 'Total de Vendas', value: 'R$ 45.231,89', icon: '$' },
-    { title: 'Pedidos Hoje', value: '127', icon: '◈' },
-    { title: 'Clientes Ativos', value: '1.234', icon: '●' },
-    { title: 'Produtos', value: '89', icon: '▣' }
+function PainelControle() {
+  const dadosEstatisticas = [
+    { titulo: 'Total de Vendas', valor: 'R$ 45.231,89', icone: '$' },
+    { titulo: 'Pedidos Hoje', valor: '127', icone: '◈' },
+    { titulo: 'Clientes Ativos', valor: '1.234', icone: '●' },
+    { titulo: 'Produtos', valor: '89', icone: '▣' }
   ];
 
-  const quickStatsData = [
-    { title: 'Em Preparo', value: '8' },
-    { title: 'Prontos', value: '5' },
-    { title: 'Aguardando', value: '12' }
+  const estatisticasRapidas = [
+    { titulo: 'Em Preparo', valor: '8' },
+    { titulo: 'Prontos', valor: '5' },
+    { titulo: 'Aguardando', valor: '12' }
   ];
 
-  const chartData = [
-    { day: 'Seg', value: 65 },
-    { day: 'Ter', value: 80 },
-    { day: 'Qua', value: 45 },
-    { day: 'Qui', value: 90 },
-    { day: 'Sex', value: 75 },
-    { day: 'Sáb', value: 95 },
-    { day: 'Dom', value: 70 }
+  const dadosGrafico = [
+    { dia: 'Seg', valor: 65 },
+    { dia: 'Ter', valor: 80 },
+    { dia: 'Qua', valor: 45 },
+    { dia: 'Qui', valor: 90 },
+    { dia: 'Sex', valor: 75 },
+    { dia: 'Sáb', valor: 95 },
+    { dia: 'Dom', valor: 70 }
   ];
 
-  const maxValue = Math.max(...chartData.map(d => d.value));
+  const valorMaximo = Math.max(...dadosGrafico.map(item => item.valor));
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h2>Dashboard Principal</h2>
-        <p className="dashboard-subtitle">Visão geral do seu negócio</p>
+    <div className="painel">
+      <div className="cabecalho-painel">
+        <h2>Painel Principal</h2>
+        <p className="subtitulo-painel">Visão geral do seu negócio</p>
       </div>
 
-      <div className="stats-grid">
-        {statsData.map((stat, index) => (
-          <div key={index} className="stat-card card">
-            <div className="stat-icon">{stat.icon}</div>
-            <div className="stat-content">
-              <h3 className="stat-title">{stat.title}</h3>
-              <p className="stat-value">{stat.value}</p>
+      <div className="grade-estatisticas">
+        {dadosEstatisticas.map((estatistica, indice) => (
+          <div key={indice} className="cartao-estatistica cartao">
+            <div className="icone-estatistica">{estatistica.icone}</div>
+            <div className="conteudo-estatistica">
+              <h3 className="titulo-estatistica">{estatistica.titulo}</h3>
+              <p className="valor-estatistica">{estatistica.valor}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="dashboard-grid">
-        <div className="chart-container card">
-          <h3 className="section-title">Vendas da Semana</h3>
-          <div className="chart">
-            {chartData.map((item, index) => (
-              <div key={index} className="chart-bar-container">
+      <div className="grade-painel">
+        <div className="container-grafico cartao">
+          <h3 className="titulo-secao">Vendas da Semana</h3>
+          <div className="grafico">
+            {dadosGrafico.map((item, indice) => (
+              <div key={indice} className="container-barra">
                 <div 
-                  className="chart-bar"
-                  style={{ height: `${(item.value / maxValue) * 100}%` }}
+                  className="barra"
+                  style={{ height: `${(item.valor / valorMaximo) * 100}%` }}
                 >
-                  <span className="chart-value">{item.value}</span>
+                  <span className="valor-grafico">{item.valor}</span>
                 </div>
-                <span className="chart-label">{item.day}</span>
+                <span className="rotulo-grafico">{item.dia}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="quick-stats-container card">
-          <h3 className="section-title">Estatísticas Rápidas</h3>
-          <div className="quick-stats-list">
-            {quickStatsData.map((stat, index) => (
-              <div key={index} className="quick-stat-item">
-                <h4 className="quick-stat-label">{stat.title}</h4>
-                <p className="quick-stat-value">{stat.value}</p>
+        <div className="container-estatisticas-rapidas cartao">
+          <h3 className="titulo-secao">Estatísticas Rápidas</h3>
+          <div className="lista-estatisticas-rapidas">
+            {estatisticasRapidas.map((estatistica, indice) => (
+              <div key={indice} className="item-estatistica-rapida">
+                <h4 className="rotulo-estatistica-rapida">{estatistica.titulo}</h4>
+                <p className="valor-estatistica-rapida">{estatistica.valor}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="recent-activity card">
-        <h3 className="section-title">Atividades Recentes</h3>
-        <div className="activity-list">
-          <div className="activity-item">
-            <span className="activity-time">10:30</span>
-            <span className="activity-text">Novo pedido #1234 recebido</span>
+      <div className="atividades-recentes cartao">
+        <h3 className="titulo-secao">Atividades Recentes</h3>
+        <div className="lista-atividades">
+          <div className="item-atividade">
+            <span className="hora-atividade">10:30</span>
+            <span className="texto-atividade">Novo pedido #1234 recebido</span>
           </div>
-          <div className="activity-item">
-            <span className="activity-time">10:15</span>
-            <span className="activity-text">Pedido #1233 confirmado</span>
+          <div className="item-atividade">
+            <span className="hora-atividade">10:15</span>
+            <span className="texto-atividade">Pedido #1233 confirmado</span>
           </div>
-          <div className="activity-item">
-            <span className="activity-time">09:45</span>
-            <span className="activity-text">Cliente João Silva cadastrado</span>
+          <div className="item-atividade">
+            <span className="hora-atividade">09:45</span>
+            <span className="texto-atividade">Cliente João Silva cadastrado</span>
           </div>
-          <div className="activity-item">
-            <span className="activity-time">09:30</span>
-            <span className="activity-text">Produto "Pizza Margherita" atualizado</span>
+          <div className="item-atividade">
+            <span className="hora-atividade">09:30</span>
+            <span className="texto-atividade">Produto "Pizza Margherita" atualizado</span>
           </div>
         </div>
       </div>
@@ -102,4 +102,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default PainelControle;
