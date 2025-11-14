@@ -1,10 +1,10 @@
-.app {
+.aplicacao {
   display: flex;
   min-height: 100vh;
   background-color: var(--fundo-principal);
 }
 
-.sidebar {
+.barra-lateral {
   width: 260px;
   background-color: var(--sidebar-bg);
   position: fixed;
@@ -14,35 +14,37 @@
   padding: 2rem 0;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
-.sidebar-header {
+.cabecalho-barra-lateral {
   padding: 0 1.5rem 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 2rem;
 }
 
-.sidebar-title {
+.titulo-barra-lateral {
   font-size: 28px;
   font-weight: 700;
   margin: 0;
   color: var(--cor-secundaria);
 }
 
-.sidebar-subtitle {
+.subtitulo-barra-lateral {
   font-size: 14px;
   color: var(--texto-secundario);
   margin: 0.25rem 0 0;
 }
 
-.sidebar-nav {
+.navegacao-barra-lateral {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0 1rem;
 }
 
-.nav-item {
+.item-navegacao {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -54,17 +56,17 @@
   font-weight: 500;
 }
 
-.nav-item:hover {
+.item-navegacao:hover {
   background-color: rgba(255, 118, 34, 0.1);
   color: var(--cor-secundaria);
 }
 
-.nav-item.active {
+.item-navegacao.ativo {
   background-color: var(--cor-secundaria);
   color: var(--branco);
 }
 
-.nav-icon {
+.icone-navegacao {
   font-size: 22px;
   width: 24px;
   display: flex;
@@ -73,11 +75,44 @@
   font-weight: normal;
 }
 
-.nav-text {
+.texto-navegacao {
   font-size: 15px;
 }
 
-.main-content {
+.rodape-barra-lateral {
+  padding: 1rem 1.5rem;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.usuario-barra-lateral {
+  color: var(--texto-secundario);
+  font-size: 14px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  word-break: break-word;
+}
+
+.botao-sair {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--texto-principal);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.botao-sair:hover {
+  background: rgba(255, 118, 34, 0.2);
+  color: var(--cor-secundaria);
+}
+
+.conteudo-principal {
   margin-left: 260px;
   flex: 1;
   padding: 2rem;
@@ -85,33 +120,47 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .barra-lateral {
     width: 80px;
   }
 
-  .sidebar-header {
+  .cabecalho-barra-lateral {
     padding: 0 1rem 2rem;
   }
 
-  .sidebar-title {
+  .titulo-barra-lateral {
     font-size: 20px;
   }
 
-  .sidebar-subtitle {
+  .subtitulo-barra-lateral {
     display: none;
   }
 
-  .nav-text {
+  .texto-navegacao {
     display: none;
   }
 
-  .nav-item {
+  .item-navegacao {
     justify-content: center;
     padding: 1rem 0.5rem;
   }
 
-  .main-content {
+  .conteudo-principal {
     margin-left: 80px;
     width: calc(100% - 80px);
+  }
+
+  .rodape-barra-lateral {
+    padding: 1rem;
+  }
+
+  .usuario-barra-lateral {
+    font-size: 12px;
+    display: none;
+  }
+
+  .botao-sair {
+    padding: 0.5rem;
+    font-size: 12px;
   }
 }
